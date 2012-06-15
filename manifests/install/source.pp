@@ -3,15 +3,16 @@
 #
 class haproxy::install::source {
 	include buildenv::c
-	include buildenv::libs::pcre
+	#include buildenv::libs::pcre
 	
-	common::archive { "haproxy-${haproxy::params::version}":
-		ensure   => present,
-		url      => "http://haproxy.1wt.eu/download/1.4/src/haproxy-${haproxy::params::version}.tar.gz",
-		timeout  => 600,
-		target   => $haproxy::params::unpack_root,
-		notify	 => Exec['make-haproxy'],
-	}
+# TODO: solve using linux cmds instead
+#	common::archive { "haproxy-${haproxy::params::version}":
+#		ensure   => present,
+#		url      => "http://haproxy.1wt.eu/download/1.4/src/haproxy-${haproxy::params::version}.tar.gz",
+#		timeout  => 600,
+#		target   => $haproxy::params::unpack_root,
+#		notify	 => Exec['make-haproxy'],
+#	}
 
 	exec { 'make-haproxy':
 		command     => "/usr/bin/make TARGET=linux26 ARCH=${architecture} USE_PCRE=1",
